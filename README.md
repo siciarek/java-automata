@@ -1,4 +1,4 @@
 java-automata
 =============
 
-Cellular automata implemented in Java
+Cellular automata implemented in Java.
