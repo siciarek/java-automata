@@ -37,17 +37,17 @@ public class Window extends JFrame {
 		automaton.setDensity(0);
 
 		// Automata defined by stringrule:
-//		String stringrule;
-//		
-//		stringrule = "B3/S23";
-//		stringrule = "B3/S12345/11";
-//		stringrule = "B3/S1234/11";
-//		stringrule = "B37/S1234/11";
-//		
-//		automaton = new CellularAutomaton(size.width, size.height, this, stringrule);
-//		automaton.setAutomatonName("Game of Life");
-//		int[][] pattern = { { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 1 }, { 2, 2 } };
-//		automaton.setPattern(pattern);
+		String stringrule;
+		
+		stringrule = "B3/S23";
+		stringrule = "B3/S12345/11";
+		stringrule = "B3/S1234/11";
+		stringrule = "B37/S1234/11";
+		
+		automaton = new CellularAutomaton(size.width, size.height, this, stringrule);
+		automaton.setAutomatonName("Game of Life");
+		int[][] pattern = { { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 1 }, { 2, 2 } };
+		automaton.setPattern(pattern);
 
 		automaton.setUp();
 		
