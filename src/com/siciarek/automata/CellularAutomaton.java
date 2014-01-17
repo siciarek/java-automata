@@ -37,9 +37,9 @@ public class CellularAutomaton extends JPanel {
 	protected HashMap<Integer, Boolean> born = null;
 	protected HashMap<Integer, Boolean> survive = null;
 
-	final Color[] colors = { new Color(255, 255, 255), new Color(255, 0, 0), new Color(255, 69, 0),
-			new Color(255, 127, 0), new Color(255, 140, 0), new Color(255, 165, 0), new Color(255, 215, 0),
-			new Color(255, 255, 0), new Color(255, 255, 224), new Color(255, 255, 240), new Color(0, 0, 0), };
+	final Color[] colors = { new Color(0, 0, 0), new Color(255, 0, 0), new Color(255, 69, 0), new Color(255, 127, 0),
+			new Color(255, 140, 0), new Color(255, 165, 0), new Color(255, 215, 0), new Color(255, 255, 0),
+			new Color(255, 255, 224), new Color(255, 255, 240), new Color(255, 255, 255), };
 
 	/**
 	 * Constructor
@@ -69,7 +69,7 @@ public class CellularAutomaton extends JPanel {
 	}
 
 	// Initialization:
-	
+
 	public void configure() {
 
 		String[] r = this.rulestring.split("/");
@@ -106,18 +106,18 @@ public class CellularAutomaton extends JPanel {
 		Graphics2D g2 = this.screen.createGraphics();
 		g2.setColor(backgroundColor);
 		g2.fillRect(0, 0, this.screen.getWidth(), this.screen.getHeight());
-		
+
 		for (int r = 0; r < this.screen.getHeight(); ++r) {
 			for (int c = 0; c < this.screen.getWidth(); ++c) {
-				int value = this.grid[r/times][c/times];
-				if(value == 0) {
+				int value = this.grid[r / times][c / times];
+				if (value == 0) {
 					continue;
 				}
-				
-				this.screen.setRGB(c, r, this.mapValColor.get(value));				
+
+				this.screen.setRGB(c, r, this.mapValColor.get(value));
 			}
 		}
-		
+
 		g.drawImage(this.screen, 0, 0, this);
 		g.dispose();
 	}
@@ -139,28 +139,28 @@ public class CellularAutomaton extends JPanel {
 	// Logic:
 
 	protected boolean born(int n) {
-		
-		if(this.born == null) {
+
+		if (this.born == null) {
 			this.born = new HashMap<Integer, Boolean>();
 			String[] temp = this.rulestring.split("/")[0].split("");
-			for(int i = 2; i < temp.length; i++) {
+			for (int i = 2; i < temp.length; i++) {
 				this.born.put(Integer.parseInt(temp[i]), true);
 			}
 		}
-		
+
 		return this.born.containsKey(n);
 	}
 
 	protected boolean survive(int n) {
-		
-		if(this.survive == null) {
+
+		if (this.survive == null) {
 			this.survive = new HashMap<Integer, Boolean>();
 			String[] temp = this.rulestring.split("/")[1].split("");
-			for(int i = 2; i < temp.length; i++) {
+			for (int i = 2; i < temp.length; i++) {
 				this.survive.put(Integer.parseInt(temp[i]), true);
 			}
 		}
-		
+
 		return this.survive.containsKey(n);
 	}
 
@@ -227,17 +227,17 @@ public class CellularAutomaton extends JPanel {
 		this.init();
 		this.bufferToGrid();
 	}
-	
+
 	protected void bufferToGrid() {
 		this.clean();
-		
+
 		for (int y = 0; y < this.rows; ++y) {
 			for (int x = 0; x < this.cols; ++x) {
 				int value = this.buffer[y][x];
-				if(value == 0) {
+				if (value == 0) {
 					continue;
 				}
-				
+
 				this.grid[y][x] = this.buffer[y][x];
 			}
 		}
@@ -248,7 +248,7 @@ public class CellularAutomaton extends JPanel {
 	}
 
 	public boolean move() {
-		
+
 		revalidate();
 		repaint();
 
@@ -282,10 +282,10 @@ public class CellularAutomaton extends JPanel {
 			nb += n.get(i) > 0 ? 1 : 0;
 		}
 
-		if(value == 0 && this.born(nb) || value > 0 && this.survive(nb)) {
+		if (value == 0 && this.born(nb) || value > 0 && this.survive(nb)) {
 			return (value + 1) < this.states ? value + 1 : this.states - 1;
 		}
-		
+
 		return 0;
 	}
 
@@ -296,7 +296,8 @@ public class CellularAutomaton extends JPanel {
 		for (int i = 0; i < this.pattern.length; i++) {
 			int r = this.rows / 2 + this.pattern[i][0];
 			int c = this.cols / 2 + this.pattern[i][1];
-
+			this.row = r;
+			this.col = c;
 			this.buffer[r][c] = this.states - 1;
 		}
 	}
@@ -308,7 +309,7 @@ public class CellularAutomaton extends JPanel {
 	public void setDensity(double density) {
 		this.density = density;
 	}
-	
+
 	// Abstract:
 
 	public void nextPattern() {

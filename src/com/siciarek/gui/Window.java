@@ -30,29 +30,47 @@ public class Window extends JFrame {
 		this.setVisible(true);
 		Dimension size = this.getRealSize();
 
-		String name = "Mazectric";
+		HashMap<String, String> automata = new HashMap<String, String>();
+
+		automata.put("Game of Life", "B3/S23");
+		automata.put("Maze", "B3/S1234/11");
+		automata.put("Maze Full of Mice", "B37/S1234/11");
+		automata.put("Mazectric", "B3/S12345/11");
+
+		
+		automata.put("BelZhab", "B1/S1");
+
+		String name = null;
+
+		name = "Langton's Ant";
+
+		int[][][] patterns = {
+				{ { 0, 0 } }, // Center
+				{ { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 1 }, { 2, 2 }, }, // Glider
+		};
+
 		CellularAutomaton automaton;
 
-		if (name == null) {
-			// Elementary Cellular Automaton:
+		switch (name) {
+
+		case "Elementary Cellular Automaton":
 			automaton = new ElementaryCellularAutomaton(size.width, size.height, this);
 			automaton.setAutomatonName("Elementary Cellular Automaton");
 			automaton.setDensity(0);
+			break;
 
-		} else {
-			// Automata defined by stringrule:
-			HashMap<String, String> automata = new HashMap<String, String>();
+		case "Langton's Ant":
+			automaton = new LangtonsAnt(size.width, size.height, this);
+			automaton.setAutomatonName(name);
+			automaton.setPattern(patterns[0]);
+			break;
 
-			automata.put("Game of Life", "B3/S23");
-			automata.put("Maze", "B3/S1234/11");
-			automata.put("Maze Full of Mice", "B37/S1234/11");
-			automata.put("Mazectric", "B3/S12345/11");
-
+		default:
 			automaton = new CellularAutomaton(size.width, size.height, this, automata.get(name));
 			automaton.setAutomatonName(name);
-			int[][] pattern = { { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 1 }, { 2, 2 } }; // Glider
-			automaton.setPattern(pattern);
+			automaton.setPattern(patterns[1]);
 		}
+
 		automaton.setUp();
 
 		this.add(automaton);
@@ -62,7 +80,7 @@ public class Window extends JFrame {
 			if (automaton.move() == false) {
 				automaton.nextPattern();
 			}
-			Thread.sleep(100);
+			Thread.sleep(10);
 		}
 	}
 
@@ -73,6 +91,10 @@ public class Window extends JFrame {
 	 */
 	private void setScale(int scale) {
 		this.scale = scale;
+	}
+
+	public void update() {
+		repaint();
 	}
 
 	private Dimension getRealSize() {
