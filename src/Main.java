@@ -1,4 +1,4 @@
-import com.siciarek.graphics.Window;
+import com.siciarek.gui.Window;
 
 public class Main {
 

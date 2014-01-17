@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project java-automata">
-    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
-    <!--ANT 1.7 is required                                        -->
-    <target name="create_run_jar">
-        <jar destfile="automata.jar" filesetmanifest="mergewithoutmain">
+<project default="all" name="Create Runnable Jar for Project java-automata">
+
+	<property name="srcdir" value="src"/>
+    <property name="destdir" value="bin"/>
+    <property name="classpath" value=".;bin"/>
+
+    <target name="all" depends="ccx, compile, create_jar, run"/>
+
+    <target name="compile">
+        <javac srcdir="${srcdir}" destdir="${destdir}" classpath="${classpath}" includeantruntime="false" fork="true"/>
+    </target>
+	
+    <target name="create_jar">
+        <jar destfile="automata.jar">
             <manifest>
-                <attribute name="Main-Class" value="Main"/>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="Main"/>
                 <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./"/>
             </manifest>
-            <fileset dir="bin"/>
+            <zipfileset src="./res/jar-in-jar-loader.zip"/>
+            <fileset dir="./bin"/>
         </jar>
+    </target>
+    
+	<target name="run">
+        <exec executable="./automata.cmd" />
+    </target>
+	
+    <target name="ccx" description="Cleaning up project output directory">
+        <delete verbose="true" includeemptydirs="true" failonerror="false">
+            <fileset dir="bin" includes="**/*"/>
+        </delete>
     </target>
 </project>

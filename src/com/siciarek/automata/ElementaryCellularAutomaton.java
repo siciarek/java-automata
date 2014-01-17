@@ -2,7 +2,7 @@ package com.siciarek.automata;
 
 import java.util.Vector;
 
-import com.siciarek.graphics.Window;
+import com.siciarek.gui.Window;
 
 public class ElementaryCellularAutomaton extends CellularAutomaton {
 

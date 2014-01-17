@@ -1,4 +1,4 @@
-package com.siciarek.graphics;
+package com.siciarek.gui;
 
 import java.awt.Dimension;
 

@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import javax.swing.JPanel;
 
-import com.siciarek.graphics.Window;
+import com.siciarek.gui.Window;
 
 public class CellularAutomaton extends JPanel {
 
