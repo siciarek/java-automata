@@ -37,9 +37,9 @@ public class CellularAutomaton extends JPanel {
 	protected HashMap<Integer, Boolean> born = null;
 	protected HashMap<Integer, Boolean> survive = null;
 
-	final Color[] colors = { new Color(0, 0, 0), new Color(255, 0, 0), new Color(255, 69, 0), new Color(255, 127, 0),
+	final Color[] colors = { new Color(255, 255, 255), new Color(255, 0, 0), new Color(255, 69, 0), new Color(255, 127, 0),
 			new Color(255, 140, 0), new Color(255, 165, 0), new Color(255, 215, 0), new Color(255, 255, 0),
-			new Color(255, 255, 224), new Color(255, 255, 240), new Color(255, 255, 255), };
+			new Color(255, 255, 224), new Color(255, 255, 240), new Color(0, 0, 0), };
 
 	/**
 	 * Constructor
@@ -51,8 +51,9 @@ public class CellularAutomaton extends JPanel {
 	public CellularAutomaton(int width, int height, Window window, String rulestring) {
 
 		this.window = window;
-		this.rows = height / this.window.scale;
-		this.cols = width / this.window.scale;
+		Integer times = this.window.getScale();
+		this.rows = height / times;
+		this.cols = width / times;
 		this.rulestring = rulestring;
 
 		this.grid = new int[this.rows][this.cols];
@@ -60,7 +61,7 @@ public class CellularAutomaton extends JPanel {
 
 		this.configure();
 
-		screen = new BufferedImage(this.cols * this.window.scale, this.rows * this.window.scale,
+		screen = new BufferedImage(this.cols * times, this.rows * times,
 				BufferedImage.TYPE_INT_RGB);
 	}
 
@@ -101,7 +102,7 @@ public class CellularAutomaton extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		int times = this.window.scale;
+		int times = this.window.getScale();
 
 		Graphics2D g2 = this.screen.createGraphics();
 		g2.setColor(backgroundColor);
@@ -299,6 +300,7 @@ public class CellularAutomaton extends JPanel {
 			this.row = r;
 			this.col = c;
 			this.buffer[r][c] = this.states - 1;
+			this.grid[r][c] = this.states - 1;
 		}
 	}
 
@@ -308,6 +310,11 @@ public class CellularAutomaton extends JPanel {
 
 	public void setDensity(double density) {
 		this.density = density;
+	}
+	
+	protected void normalizeCoordinates() {
+		this.col = (this.cols + this.col) % this.cols;
+		this.row = (this.rows + this.row) % this.rows;
 	}
 
 	// Abstract:

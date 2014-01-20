@@ -36,16 +36,21 @@ public class LangtonsAnt extends CellularAutomaton {
 		}
 	}
 
+	/**
+	 * @Override
+	 */
+	protected void bufferToGrid() {
+		
+	}
+	
 	protected boolean step() {
-		this.clean();
 
-		this.buffer[this.row][this.col] = this.getNextValue(this.row, this.col);
+		this.grid[this.row][this.col] = this.getNextValue(this.row, this.col);
 
 		this.row += offsets.get(this.dir).get(0);
 		this.col += offsets.get(this.dir).get(1);
-		this.col = (this.cols + this.col) % this.cols;
-		this.row = (this.rows + this.row) % this.rows;
 
+		this.normalizeCoordinates();
 		this.computeDirection();
 
 		this.generation++;
@@ -54,13 +59,13 @@ public class LangtonsAnt extends CellularAutomaton {
 	}
 
 	protected void computeDirection() {
-		this.dir += this.buffer[this.row][this.col] > 0 ? this.L : this.R;
+		this.dir += this.grid[this.row][this.col] > 0 ? this.L : this.R;
 		this.dir += 360;
 		this.dir %= 360;
 	};
 
 	protected int getNextValue(int row, int col) {
-		int value = this.buffer[row][col];
+		int value = this.grid[row][col];
 		
 		return value > 0 ? 0 : 1;
 	}

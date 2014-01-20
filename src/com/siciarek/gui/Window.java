@@ -1,54 +1,50 @@
 package com.siciarek.gui;
 
 import java.awt.Dimension;
-import java.util.HashMap;
-
 import javax.swing.JFrame;
 
-import com.siciarek.automata.*;
+import com.siciarek.automata.CellularAutomaton;
+import com.siciarek.automata.Definition;
+import com.siciarek.automata.ElementaryCellularAutomaton;
+import com.siciarek.automata.LangtonsAnt;
 
 public class Window extends JFrame {
 
 	private static final long serialVersionUID = 1398197640669922135L;
-
+	private Integer scale = 2;
 	private boolean fullscreen = true;
+	private Integer speed;
 
-	public Integer scale = 1;
+	public void run(Definition definition) throws InterruptedException {
+		this.run(definition, this.speed);
+	}
 
-	public Window() throws InterruptedException {
+	public void run(Definition definition, Integer speed) throws InterruptedException {
+		
+		this.speed = speed;
+		
+		String name = definition.getName();
+		String rule = definition.getRule();
 
-		this.setScale(2);
-
+		int[][][] patterns = {
+				{ { 0, 0 } }, // Center
+				{ { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 1 }, { 2, 2 }, }, // Glider
+		};
+		
 		if (this.fullscreen == true) {
 			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		} else {
 			this.setSize(640, 480);
 		}
 
-		this.setLocationRelativeTo(null);
+		this.setScale(2);
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+
 		Dimension size = this.getRealSize();
-
-		HashMap<String, String> automata = new HashMap<String, String>();
-
-		automata.put("Game of Life", "B3/S23");
-		automata.put("Maze", "B3/S1234/11");
-		automata.put("Maze Full of Mice", "B37/S1234/11");
-		automata.put("Mazectric", "B3/S12345/11");
-
 		
-		automata.put("BelZhab", "B1/S1");
-
-		String name = null;
-
-		name = "Langton's Ant";
-
-		int[][][] patterns = {
-				{ { 0, 0 } }, // Center
-				{ { 0, 1 }, { 1, 2 }, { 2, 0 }, { 2, 1 }, { 2, 2 }, }, // Glider
-		};
-
 		CellularAutomaton automaton;
 
 		switch (name) {
@@ -66,7 +62,7 @@ public class Window extends JFrame {
 			break;
 
 		default:
-			automaton = new CellularAutomaton(size.width, size.height, this, automata.get(name));
+			automaton = new CellularAutomaton(size.width, size.height, this, rule);
 			automaton.setAutomatonName(name);
 			automaton.setPattern(patterns[1]);
 		}
@@ -80,17 +76,8 @@ public class Window extends JFrame {
 			if (automaton.move() == false) {
 				automaton.nextPattern();
 			}
-			Thread.sleep(10);
+			Thread.sleep(speed);
 		}
-	}
-
-	/**
-	 * Set scale
-	 * 
-	 * @param scale
-	 */
-	private void setScale(int scale) {
-		this.scale = scale;
 	}
 
 	public void update() {
@@ -102,5 +89,19 @@ public class Window extends JFrame {
 		int height = this.getHeight() - (this.getInsets().top + this.getInsets().bottom);
 
 		return new Dimension(width, height);
+	}
+
+	/**
+	 * @return the scale
+	 */
+	public Integer getScale() {
+		return this.scale;
+	}
+
+	/**
+	 * @param scale the scale to set
+	 */
+	public void setScale(Integer scale) {
+		this.scale = scale;
 	}
 }
