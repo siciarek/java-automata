@@ -26,14 +26,21 @@ public class ElementaryCellularAutomaton extends CellularAutomaton {
 		this.clean();
 
 		if (this.density == 0) {
-			this.buffer[this.row][this.cols / 2] = 1;
+			this.grid[this.row][this.cols / 2] = 1;
 		} else {
 			for (int c = 0; c < this.cols; c++) {
-				this.buffer[this.row + 1][c] = Math.random() < this.density ? 0 : 1;
+				this.grid[this.row + 1][c] = Math.random() < this.density ? 0 : 1;
 			}
 		}
 	}
 
+	/**
+	 * @Override
+	 */
+	protected void bufferToGrid() {
+		
+	}
+	
 	public void nextPattern() {
 		this.rule = ++this.rule % 256;
 		this.setUp();
@@ -42,7 +49,7 @@ public class ElementaryCellularAutomaton extends CellularAutomaton {
 	protected boolean step() {
 
 		for (int c = 0; c < this.cols; c++) {
-			this.buffer[this.row + 1][c] = this.getNextValue(this.row, c);
+			this.grid[this.row + 1][c] = this.getNextValue(this.row, c);
 		}
 
 		return (++row + 1) < this.rows;

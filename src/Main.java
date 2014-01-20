@@ -17,7 +17,7 @@ public class Main {
 		automata.add(new Definition("Gnarl", "B1/S1"));
 
 		try {
-			Integer index = 1;
+			Integer index = 0;
 			Integer speed = 10;
 			
 			if(args.length > 0 &&  args[0].trim().matches("\\d+")) {

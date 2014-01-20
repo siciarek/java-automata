@@ -7,11 +7,11 @@
 
 	<target name="all" depends="ccx, compile, create_jar, run" />
 
-	<target name="compile">
+	<target name="compile" description="Compile source files">
 		<javac srcdir="${srcdir}" destdir="${destdir}" classpath="${classpath}" includeantruntime="false" fork="true" />
 	</target>
 
-	<target name="create_jar">
+	<target name="create_jar" description="Create executable jar">
 		<jar destfile="automata.jar">
 			<manifest>
 				<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader" />
@@ -24,9 +24,10 @@
 		</jar>
 	</target>
 
-	<target name="run">
+	<target name="run" description="Run application">
 		<exec executable="./automata.cmd">
-			<arg line="5" />
+			<arg value="5" />
+			<arg value="10" />
 		</exec>
 	</target>
 
@@ -35,4 +36,5 @@
 			<fileset dir="bin" includes="**/*" />
 		</delete>
 	</target>
+
 </project>
