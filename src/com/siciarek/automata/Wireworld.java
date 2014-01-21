@@ -7,6 +7,11 @@ import com.siciarek.gui.Window;
 
 public class Wireworld extends CellularAutomaton {
 
+	final int ELECTRON_HEAD = 1;
+	final int ELECTRON_TAIL = 2;
+	final int CONDUCTOR = 3;
+	final int INSULATOR = 0;
+
 	private static final long serialVersionUID = 1L;
 
 	public Wireworld(int width, int height, Window window) {
@@ -15,21 +20,14 @@ public class Wireworld extends CellularAutomaton {
 
 	public void init() {
 
-		this.row = 0;
 		this.clean();
 
 		for (int c = 0; c < this.cols; c++) {
-			this.buffer[this.rows / 2][c] = 3;
+			this.buffer[this.rows / 2][c] = CONDUCTOR;
 		}
 
-		this.buffer[this.rows / 2 + 1][0] = 2;
-		this.buffer[this.rows / 2][1] = 1;
-	}
-
-	public void configure() {
-
-		this.states = 4;
-		this.setColorMap();
+		this.buffer[this.rows / 2][1] = ELECTRON_HEAD;
+		this.buffer[this.rows / 2 + 1][0] = ELECTRON_TAIL;
 	}
 
 	protected void setColorMap() {
@@ -43,27 +41,22 @@ public class Wireworld extends CellularAutomaton {
 		backgroundColor = new Color(mapValColor.get(0));
 	}
 
-	protected boolean step() {
-
-		for (int r = 0; r < this.rows; r++) {
-			for (int c = 0; c < this.cols; c++) {
-				if(this.buffer[r][c] != 0)
-				this.buffer[r][c] = this.getNextValue(r, c);
-			}
-		}
-
-		return true;
-	}
-
 	protected int getNextValue(int row, int col) {
+		
 		int value = this.grid[row][col];
+		int ret = INSULATOR;
 
 		switch (value) {
-		case 1:
-			return 2;
-		case 2:
-			return 3;
-		case 3:
+		
+		case ELECTRON_HEAD:
+			ret = ELECTRON_TAIL;
+			break;
+
+		case ELECTRON_TAIL:
+			ret = CONDUCTOR;
+			break;
+
+		case CONDUCTOR:
 			int[][] offsets = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 },
 					{ -1, -1 } };
 
@@ -74,7 +67,7 @@ public class Wireworld extends CellularAutomaton {
 				int c = col + offsets[i][1];
 
 				try {
-					if (this.grid[r][c] == 1) {
+					if (this.grid[r][c] == ELECTRON_HEAD) {
 						val++;
 					}
 				} catch (ArrayIndexOutOfBoundsException e) {
@@ -82,10 +75,12 @@ public class Wireworld extends CellularAutomaton {
 				}
 			}
 
-			return val == 1 || val == 2 ? 1 : 3;
+			ret = val == 1 || val == 2 ? ELECTRON_HEAD : CONDUCTOR;
+			break;
+		
 		}
 
-		return 0;
+		return ret;
 	}
 
 }

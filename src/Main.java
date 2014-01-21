@@ -29,7 +29,8 @@ public class Main {
 				speed = Integer.parseInt(args[1].trim());
 			}
 			
-			Window display = new Window();	
+			Window display = new Window();
+			display.setScale(3);
 			display.run(automata.get(index), speed);
 			
 		} catch (InterruptedException e) {

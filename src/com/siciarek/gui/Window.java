@@ -39,8 +39,6 @@ public class Window extends JFrame {
 			this.setSize(640, 480);
 		}
 
-		this.setScale(12);
-
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
