@@ -37,9 +37,9 @@ public class CellularAutomaton extends JPanel {
 	protected HashMap<Integer, Boolean> born = null;
 	protected HashMap<Integer, Boolean> survive = null;
 
-	final Color[] colors = { new Color(255, 255, 255), new Color(255, 0, 0), new Color(255, 69, 0), new Color(255, 127, 0),
-			new Color(255, 140, 0), new Color(255, 165, 0), new Color(255, 215, 0), new Color(255, 255, 0),
-			new Color(255, 255, 224), new Color(255, 255, 240), new Color(0, 0, 0), };
+	final Color[] colors = { new Color(255, 255, 255), new Color(255, 0, 0), new Color(255, 69, 0),
+			new Color(255, 127, 0), new Color(255, 140, 0), new Color(255, 165, 0), new Color(255, 215, 0),
+			new Color(255, 255, 0), new Color(255, 255, 224), new Color(255, 255, 240), new Color(0, 0, 0), };
 
 	/**
 	 * Constructor
@@ -61,8 +61,7 @@ public class CellularAutomaton extends JPanel {
 
 		this.configure();
 
-		screen = new BufferedImage(this.cols * times, this.rows * times,
-				BufferedImage.TYPE_INT_RGB);
+		screen = new BufferedImage(this.cols * times, this.rows * times, BufferedImage.TYPE_INT_RGB);
 	}
 
 	public CellularAutomaton(int width, int height, Window window) {
@@ -253,7 +252,6 @@ public class CellularAutomaton extends JPanel {
 		revalidate();
 		repaint();
 
-		++this.generation;
 		this.updateTitle();
 
 		boolean result = this.step();
@@ -263,6 +261,7 @@ public class CellularAutomaton extends JPanel {
 	}
 
 	protected boolean step() {
+		++this.generation;
 
 		for (int r = 0; r < this.rows; r++) {
 			for (int c = 0; c < this.cols; c++) {
@@ -294,16 +293,22 @@ public class CellularAutomaton extends JPanel {
 		this.clean();
 
 		// Drawing initial pattern:
-		for (int i = 0; i < this.pattern.length; i++) {
-			int r = this.rows / 2 + this.pattern[i][0];
-			int c = this.cols / 2 + this.pattern[i][1];
-			this.row = r;
-			this.col = c;
-			this.buffer[r][c] = this.states - 1;
-			this.grid[r][c] = this.states - 1;
+		if (this.pattern != null && this.pattern.length > 0) {
+			for (int i = 0; i < this.pattern.length; i++) {
+				int r = this.rows / 2 + this.pattern[i][0];
+				int c = this.cols / 2 + this.pattern[i][1];
+				this.row = r;
+				this.col = c;
+				this.buffer[r][c] = this.states - 1;
+				this.grid[r][c] = this.states - 1;
+			}
 		}
 	}
 
+	public void setPattern() {
+	
+	}
+	
 	public void setPattern(int[][] pattern) {
 		this.pattern = pattern;
 	}
@@ -311,7 +316,7 @@ public class CellularAutomaton extends JPanel {
 	public void setDensity(double density) {
 		this.density = density;
 	}
-	
+
 	protected void normalizeCoordinates() {
 		this.col = (this.cols + this.col) % this.cols;
 		this.row = (this.rows + this.row) % this.rows;

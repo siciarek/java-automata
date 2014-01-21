@@ -1,12 +1,14 @@
 package com.siciarek.gui;
 
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 import com.siciarek.automata.CellularAutomaton;
 import com.siciarek.automata.Definition;
 import com.siciarek.automata.ElementaryCellularAutomaton;
 import com.siciarek.automata.LangtonsAnt;
+import com.siciarek.automata.Wireworld;
 
 public class Window extends JFrame {
 
@@ -37,7 +39,7 @@ public class Window extends JFrame {
 			this.setSize(640, 480);
 		}
 
-		this.setScale(2);
+		this.setScale(12);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -59,6 +61,11 @@ public class Window extends JFrame {
 			automaton = new LangtonsAnt(size.width, size.height, this);
 			automaton.setAutomatonName(name);
 			automaton.setPattern(patterns[0]);
+			break;
+
+		case "Wireworld":
+			automaton = new Wireworld(size.width, size.height, this);
+			automaton.setAutomatonName(name);
 			break;
 
 		default:

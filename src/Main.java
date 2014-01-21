@@ -9,6 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		Vector<Definition> automata = new Vector<Definition>();
 		automata.add(new Definition("Elementary Cellular Automaton", null));
+		automata.add(new Definition("Wireworld", null));
 		automata.add(new Definition("Langton's Ant", null));
 		automata.add(new Definition("Game of Life", "B3/S23"));
 		automata.add(new Definition("Maze", "B3/S1234/11"));
