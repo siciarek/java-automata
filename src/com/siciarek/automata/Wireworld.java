@@ -43,10 +43,9 @@ public class Wireworld extends CellularAutomaton {
 
 	protected int getNextValue(int row, int col) {
 		
-		int value = this.grid[row][col];
 		int ret = INSULATOR;
 
-		switch (value) {
+		switch (this.grid[row][col]) {
 		
 		case ELECTRON_HEAD:
 			ret = ELECTRON_TAIL;
@@ -57,6 +56,7 @@ public class Wireworld extends CellularAutomaton {
 			break;
 
 		case CONDUCTOR:
+			// Moore
 			int[][] offsets = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 },
 					{ -1, -1 } };
 
